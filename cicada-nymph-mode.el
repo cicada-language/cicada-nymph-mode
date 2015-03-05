@@ -58,19 +58,19 @@
 ;; then you could just make your choices
 ;; and hack the definitions of syntax highlighting :
 
-;; ;; (* basic color : *)
+;; ;; << basic color : >>
 ;; ;; basic-ff0000-red
 ;; ;; basic-00ff00-green
 ;; ;; basic-0000ff-blue
 
-;; ;; (* basic molokai : *)
+;; ;; << basic molokai : >>
 ;; ;; molokai-f92672-pink
 ;; ;; molokai-fd971f-orange
 ;; ;; molokai-a6e22e-chartreuse
 ;; ;; molokai-ae81ff-purple
 ;; ;; molokai-e6db74-darkgoldenrod
 
-;; ;; (* basic molokai & solarized : *)
+;; ;; << basic molokai & solarized : >>
 ;; ;; DarkGreen
 ;; ;; solarized-859900-green
 ;; ;; DarkOliveGreen4
@@ -136,7 +136,7 @@
 ;;         (local-set-key (kbd "C-s C-d") 'previous-buffer))
 ;;     (let ()
 ;;       (run-cicada-nymph "cicada-nymph"))))
-;; (global-set-key (kbd "C-s C-d") 'switch-to-buffer-*cicada-nymph*)
+;; (global-set-key (kbd "C-s C-d") 'switch-to-buffer-*cicada-nymph>>
 
 ;; (add-hook 'cicada-nymph-mode-hook
 ;;  (lambda ()
@@ -151,7 +151,7 @@
 ;;; Bugs:
 
 ;; 1 :
-;; sometimes, when using ``(*'' at the beginning, and ``*)'' at the end,
+;; sometimes, when using ``<<'' at the beginning, and ``>>'' at the end,
 ;; to comment many lines of code,
 ;; syntax highlighting of the comment will fail.
 ;; to kill this bug,
@@ -161,7 +161,7 @@
 ;; I will NOT provide ``\'' and ``end-of-line'' as a another pair
 ;; to make comment in cicada-nymph,
 ;; NOR will I comment many continuous lines
-;; with many ``(*'' ``*)'' pairs in my cicada-nymph code.
+;; with many ``<<'' ``>>'' pairs in my cicada-nymph code.
 ;; because my friends and I will write a new text editor to solve this !!
 
 
@@ -315,9 +315,9 @@
         ;; for comment:
         (define-key a-keymap (kbd "<menu> <menu>")
           '(lambda () (interactive)
-            (insert "(* ")
+            (insert "<< ")
             (point-to-register 666)
-            (insert " -- *)")
+            (insert " -- >>")
             (jump-to-register 666)))
 
         a-keymap))
@@ -454,28 +454,28 @@
    (;; ,(rx (minimal-match
     ;;       (seq (minimal-match
     ;;             (seq word-start
-    ;;                  (group "(*")
+    ;;                  (group "<<")
     ;;                  word-end
     ;;                  (minimal-match (group (zero-or-more anything)))))
     ;;            ;; (minimal-match
     ;;            ;;  (seq word-start
-    ;;            ;;       (group "*)")
+    ;;            ;;       (group ">>")
     ;;            ;;       word-end))
     ;;            (seq word-start
-    ;;                 (group "*)")
+    ;;                 (group ">>")
     ;;                 word-end)
     ;;            )))
     ,(rx (seq (minimal-match
                (seq word-start
-                    (group "(*")
+                    (group "<<")
                     word-end
                     (minimal-match (group (zero-or-more anything)))))
               ;; (minimal-match
               ;;  (seq word-start
-              ;;       (group "*)")
+              ;;       (group ">>")
               ;;       word-end))
               (seq word-start
-                   (group "*)")
+                   (group ">>")
                    word-end)))
      (1 'cicada-nymph-comment-face t)
      (2 'cicada-nymph-comment-face t)
@@ -763,9 +763,9 @@
   (set (make-local-variable 'font-lock-defaults)
        '(cicada-nymph-font-lock-keywords))
   (set (make-local-variable
-        'comment-start) "(*")
+        'comment-start) "<<")
   (set (make-local-variable
-        'comment-end)  "*)")
+        'comment-end)  ">>")
   (set (make-local-variable
         'comment-style)  'extra-line)
   (setq major-mode 'cicada-nymph-mode)
