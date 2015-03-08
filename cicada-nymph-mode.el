@@ -337,8 +337,7 @@
  (cicada-nymph-word-to-define-face   ((default (:foreground "#ef5939" :bold t))))
  (cicada-nymph-lexicographer-face    ((default (:foreground "#ae81ff" :bold t))))
 
- (cicada-nymph-noun-face             ((default (:foreground "#fd971f"))))
- (cicada-nymph-important-noun-face   ((default (:foreground "#fd971f" :bold t))))
+ (cicada-nymph-variable-face             ((default (:foreground "#fd971f"))))
  (cicada-nymph-type-face             ((default (:foreground "#fd971f"))))
 
  (cicada-nymph-char-face             ((default (:foreground "#e6db78"))))
@@ -503,14 +502,6 @@
      (1 'cicada-nymph-syntax-key-word-face))
 
 
-   ;; important-noun
-   (,(rx word-start
-         (group (or "null"
-                    ))
-         word-end)
-     (1 'cicada-nymph-important-noun-face))
-
-
    ;; lexicographer & reader for lexicographer
    (,(rx (seq word-start
               (group (or ":"
@@ -558,12 +549,13 @@
      (1 'cicada-nymph-number-face))
 
 
-   ;; noun
+   ;; variable
    (,(rx (seq word-start
-              (group (in (?A . ?Z))
-                     (zero-or-more (not (in (0 . 32) 127))))
+              (group "*"
+                     (one-or-more (not (in (0 . 32) 127)))
+                     "*")
               word-end))
-     (1 'cicada-nymph-noun-face))
+     (1 'cicada-nymph-variable-face))
 
 
    ;; char
@@ -752,7 +744,7 @@
 
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.cicada-nymph$" . cicada-nymph-mode))
+(add-to-list 'auto-mode-alist '("\\.cn$" . cicada-nymph-mode))
 
 (defun cicada-nymph-mode ()
   "major mode for editing cicada-nymph language files"
