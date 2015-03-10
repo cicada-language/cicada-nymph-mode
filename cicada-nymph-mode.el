@@ -328,7 +328,7 @@
 (make-faces
  (cicada-nymph-comment-face          ((default (:foreground "#FF8888"))))
 
- (cicada-nymph-exit-face             ((default (:foreground "#00ffff" :bold t))))
+ (cicada-nymph-end-face             ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-syntax-key-word-face  ((default (:foreground "#f92672" :bold t))))
 
  (cicada-nymph-number-face           ((default (:foreground "Pink4"))))
@@ -483,9 +483,9 @@
 
    ;; very special words
    (,(rx word-start
-         (group (or "exit" "已矣"))
+         (group (or "end"))
          word-end)
-     (1 'cicada-nymph-exit-face))
+     (1 'cicada-nymph-end-face))
 
    (,(rx word-start
          (group (or "literal" "即"
