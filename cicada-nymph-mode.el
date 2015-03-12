@@ -454,6 +454,15 @@
  cicada-nymph-font-lock-keywords
  `(;; in the following, order matters
 
+   ;; string
+   (,(rx (minimal-match
+          (seq word-start
+               (group "\""
+                      (one-or-more (not (in 34)))
+                      "\"")
+               word-end)))
+     (1 'cicada-nymph-string-face))
+   
    ;; comment
    (;; ,(rx (minimal-match
     ;;       (seq (minimal-match
@@ -484,7 +493,6 @@
      (1 'cicada-nymph-comment-face t)
      (2 'cicada-nymph-comment-face t)
      (3 'cicada-nymph-comment-face t))
-
 
    ;; very special words
    (,(rx word-start
@@ -526,17 +534,6 @@
        nil
        nil
        (1 'cicada-nymph-lexicographer-face)))
-
-
-   ;; string
-   (,(rx (minimal-match
-          (seq word-start
-               (group "\""
-                      (one-or-more (not (in (0 . 32) 127)))
-                      "\"")
-               word-end)))
-     (1 'cicada-nymph-string-face))
-
 
    ;; number
    (,(rx word-start
