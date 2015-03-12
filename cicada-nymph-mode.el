@@ -331,13 +331,18 @@
  (cicada-nymph-end-face             ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-syntax-key-word-face  ((default (:foreground "#f92672" :bold t))))
 
- (cicada-nymph-number-face           ((default (:foreground "Pink4"))))
+ (cicada-nymph-number-face
+  ((default (:foreground "#fd971f" :bold t))))
 
  (cicada-nymph-sentence-reader-face  ((default (:foreground "#ffff00" :bold t))))
  (cicada-nymph-word-to-define-face   ((default (:foreground "#ef5939" :bold t))))
  (cicada-nymph-lexicographer-face    ((default (:foreground "#ae81ff" :bold t))))
 
- (cicada-nymph-variable-face             ((default (:foreground "#fd971f"))))
+ (cicada-nymph-variable-face
+  ((default (:foreground "#fd971f"))))
+ (cicada-nymph-important-variable-face
+  ((default (:foreground "#fd971f" :bold t))))
+
  (cicada-nymph-type-face             ((default (:foreground "#fd971f"))))
 
  (cicada-nymph-char-face             ((default (:foreground "#e6db78"))))
@@ -488,15 +493,15 @@
      (1 'cicada-nymph-end-face))
 
    (,(rx word-start
-         (group (or "literal" "即"
-                    "branch" "转" "轉"
-                    "address" "址"
-                    "char" "字"
-                    "string" "八位組串"
-                    "false?branch" "假则转" "假則轉"
-                    "if" "则" "則"
-                    "else" "否则" "否則"
-                    "then" "再"
+         (group (or ;; "literal"
+                    "branch"
+                    "address"
+                    ;; "char"
+                    ;; "string"
+                    "false?branch"
+                    "if"
+                    "else"
+                    "then"
                     ))
          word-end)
      (1 'cicada-nymph-syntax-key-word-face))
@@ -504,9 +509,7 @@
 
    ;; lexicographer & reader for lexicographer
    (,(rx (seq word-start
-              (group (or ":"
-                         "夫" ;; chinese version of ``:''
-                         ))
+              (group (or ":"))
               (one-or-more " ")
               (group (one-or-more (not (in (0 . 32) 127))))
               word-end))
@@ -514,9 +517,7 @@
      (2 'cicada-nymph-word-to-define-face))
 
    (,(rx word-start
-         (group (or ";"
-                    "者" ;; chinese version of ``;''
-                    ))
+         (group (or ";"))
          word-end)
      (1 'cicada-nymph-sentence-reader-face)
      (,(rx word-start
@@ -530,21 +531,17 @@
    ;; string
    (,(rx (minimal-match
           (seq word-start
-               (group (or ":" "s"))
-               (group "\" ")
-               (group (one-or-more (not (in (0 . 32) 127)))
+               (group "\""
+                      (one-or-more (not (in (0 . 32) 127)))
                       "\"")
                word-end)))
-     (1 'cicada-nymph-sentence-reader-face)
-     (2 'cicada-nymph-string-face)
-     (3 'cicada-nymph-string-face))
+     (1 'cicada-nymph-string-face))
 
 
    ;; number
    (,(rx word-start
          (group (zero-or-one "-")
-                (in (?0 . ?9))
-                (zero-or-more (not (in (0 . 32) 127))))
+                (one-or-more (in (?0 . ?9))))
          word-end)
      (1 'cicada-nymph-number-face))
 
@@ -557,6 +554,13 @@
               word-end))
      (1 'cicada-nymph-variable-face))
 
+   ;; important-noun
+   (,(rx word-start
+         (group (or "false"
+                    "true"
+                    ))
+         word-end)
+     (1 'cicada-nymph-important-variable-face))
 
    ;; char
    (,(rx (seq word-start
