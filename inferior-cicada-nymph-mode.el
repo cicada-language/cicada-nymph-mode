@@ -6,7 +6,7 @@
 (provide 'inferior-cicada-nymph-mode)
 
 
-(defvar cicada-nymph-program-name "play-with-cicada-nymph"
+(defvar cicada-nymph-program-name "cicada-nymph"
   "*Program invoked by the `run-cicada-nymph' command, including program arguments")
 
 (defcustom inferior-cicada-nymph-mode-hook nil
@@ -74,9 +74,7 @@ of `cicada-nymph-program-name').  Runs the hooks `inferior-cicada-nymph-mode-hoo
 \(Type \\[describe-mode] in the process buffer for a list of commands.)"
 
   (interactive
-   (list (if current-prefix-arg
-             (read-string "Run cicada-nymph: " cicada-nymph-program-name)
-           cicada-nymph-program-name)))
+   (list (read-string "Run cicada-nymph: " cicada-nymph-program-name)))
   (if (not (comint-check-proc "*cicada-nymph*"))
       (let ((cmdlist (cicada-nymph-args-to-list cmd)))
         (set-buffer (apply 'make-comint "cicada-nymph" (car cmdlist)
