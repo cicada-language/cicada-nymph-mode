@@ -496,7 +496,8 @@
 
    ;; very special words
    (,(rx word-start
-         (group (or "end"))
+         (group (or "end"
+                    "<>"))
          word-end)
      (1 'cicada-nymph-end-face))
 
