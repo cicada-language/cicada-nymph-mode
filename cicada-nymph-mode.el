@@ -271,7 +271,7 @@
 
 (make-faces
  (cicada-nymph-comment-face          ((default (:foreground "#FF8888"))))
- (cicada-nymph-end-face              ((default (:foreground "#a0ffff" :bold t))))
+ (cicada-nymph-end-face              ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-syntax-key-word-face  ((default (:foreground "#f92672" :bold t))))
 
  (cicada-nymph-number-face           ((default (:foreground "#fd971f" :bold t))))
@@ -292,7 +292,7 @@
  (cicada-nymph-bound-variable-2-face   ((default (:foreground "#5CDD5C" :bold t))))
  (cicada-nymph-bound-variable-3-face ((default (:foreground "#3DCD3D" :bold t))))
  (cicada-nymph-bound-variable-4-face  ((default (:foreground "#1DBB1D" :bold t))))
- 
+
  (cicada-nymph-local-variable-1-face   ((default (:foreground "#FF4C4C" :bold t))))
  (cicada-nymph-local-variable-2-face   ((default (:foreground "#dc322f" :bold t))))
  (cicada-nymph-local-variable-3-face ((default (:foreground "#D41C1C" :bold t))))
@@ -324,7 +324,7 @@
                       "\"")
                word-end)))
      (1 'cicada-nymph-string-face))
-   
+
    ;; comment
    (;; ,(rx (minimal-match
     ;;       (seq (minimal-match
@@ -362,7 +362,7 @@
                     "<>"))
          word-end)
      (1 'cicada-nymph-end-face))
-   
+
    (,(rx word-start
          (group (or ;; "literal"
                  "branch"
@@ -482,8 +482,8 @@
                      (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
                      (zero-or-more (not (in (0 . 32) 127))))
               word-end))
-     (1 'cicada-nymph-local-variable-4-face))   
-   
+     (1 'cicada-nymph-local-variable-4-face))
+
    ;; wody
    (,(rx (seq word-start
               (group
