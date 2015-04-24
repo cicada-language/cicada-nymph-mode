@@ -1,0 +1,70 @@
+#+TITLE:  快理我 / README
+#+AUTHOR: 謝宇恆 / XIE Yuheng
+#+EMAIL:  xyheme@gmail.com
+
+* ===================================
+* note dependence
+  * xyh-emacs-lib
+* note
+  * do not insert <tab> in cicada-nymph-mode
+  * note that
+    auto-indentation is not supported by cicada-nymph-mode
+    because
+    auto-indentation functions
+    written by other people
+    always do not satisfy my need
+  * while
+    I provide the following functions 
+    to help you to indent your code :
+    1. turn-on-indent
+    2. turn-off-indent
+    3. move-line-foreword
+    4. move-line-backword
+    these four functions are defined in xyh-emacs-lib
+* note problem
+  * sometimes
+    when using << >> to comment many lines of code
+    syntax highlighting of the comment will fail
+  * to kill this bug
+    one HAVE TO scan almost the whole buffer 
+    very frequently
+    this will make the performance unacceptable (to me)
+  * and 
+    I will wait for a better text editor to solve this problem
+  * I will NOT provide "\" and "end-of-line" 
+    as a another pair to make comment in cicada-nymph
+    NOR will I comment many continuous lines
+    with many << >> pairs in my cicada-nymph code
+  * because 
+    my friends and I will write a new text editor
+    which is better than emacs
+* the way I use cicada-nymph-mode
+  #+begin_src emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/cicada-nymph-mode/")
+  (require 'cicada-nymph-mode)
+  (require 'inferior-cicada-nymph-mode)
+
+  (define-prefix-command 'C-s-map)
+  (global-set-key (kbd "C-s") 'C-s-map)
+
+  (defun switch-to-buffer-*cicada-nymph* ()
+    (interactive)
+    (if (member-string? "*cicada-nymph*" (mapcar 'buffer-name (buffer-list)))
+        (let ()
+          (switch-to-buffer "*cicada-nymph*")
+          (local-set-key (kbd "C-s C-c") 'previous-buffer))
+        (run-cicada-nymph
+         (read-string "* run cicada-nymph : "
+                      cicada-nymph-program-name))))
+  (global-set-key (kbd "C-s C-c") 'switch-to-buffer-*cicada-nymph*)
+
+  (add-hook 'cicada-nymph-mode-hook
+   (lambda ()
+     (local-set-key (kbd "C-h") 'hippie-expand)
+     (local-set-key (kbd "M-q") 'query-replace)
+     (local-set-key (kbd "C-c C-e")
+                    'cicada-nymph-send-region-and-split-window)
+     (local-set-key (kbd "C-<tab>")
+                    'cicada-nymph-send-line-and-split-window-and-goto-next-line)))  
+  #+end_src
+* ===================================

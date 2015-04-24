@@ -6,7 +6,7 @@
 (provide 'inferior-cicada-nymph-mode)
 
 
-(defvar cicada-nymph-program-name "cicada-nymph"
+(defvar cicada-nymph-program-name "cn"
   "*Program invoked by the `run-cicada-nymph' command, including program arguments")
 
 (defcustom inferior-cicada-nymph-mode-hook nil
@@ -17,7 +17,8 @@
 (defvar inferior-cicada-nymph-mode-map)
 (defvar cicada-nymph-process-buffer)
 
-(define-derived-mode inferior-cicada-nymph-mode comint-mode "Inferior cicada-nymph"
+(define-derived-mode inferior-cicada-nymph-mode comint-mode
+  "Inferior cicada-nymph"
   "Major mode for interacting with an inferior cicada-nymph process.
 
 The following commands are available:
@@ -46,9 +47,9 @@ Commands:
 Return after the end of the process' output sends the text from the
 end of process to point. If you accidentally suspend your process, use
 \\[comint-continue-subjob] to continue it. "
-  ;; Customise in inferior-cicada-nymph-mode-hook
-  (setq comint-prompt-regexp "^")
-  (setq mode-line-process '(":%s")))
+                     ;; Customise in inferior-cicada-nymph-mode-hook
+                     (setq comint-prompt-regexp "^")
+                     (setq mode-line-process '(":%s")))
 
 (defun cicada-nymph-args-to-list (string)
   (let ((where (string-match "[ \t]" string)))
@@ -56,12 +57,12 @@ end of process to point. If you accidentally suspend your process, use
           ((not (= where 0))
            (cons (substring string 0 where)
                  (cicada-nymph-args-to-list (substring string (+ 1 where)
-                                                (length string)))))
+                                                       (length string)))))
           (t (let ((pos (string-match "[^ \t]" string)))
                (if (null pos)
                    nil
-                 (cicada-nymph-args-to-list (substring string pos
-                                                (length string)))))))))
+                   (cicada-nymph-args-to-list (substring string pos
+                                                         (length string)))))))))
 
 
 ;;;###autoload
@@ -90,20 +91,20 @@ of `cicada-nymph-program-name').  Runs the hooks `inferior-cicada-nymph-mode-hoo
 (defun split-window-for-cicada-nymph-with-named-buffer (buffer-name-string)
   (interactive)
   (cond
-   ((= 1 (count-windows))
-    (progn
-      (split-window-horizontally (floor (- (* 0.38 (window-width)))))
-      (other-window 1)
-      (switch-to-buffer buffer-name-string)
-      (other-window -1)))
-   ((not (cl-find buffer-name-string
-                  (mapcar (lambda (w) (buffer-name (window-buffer w)))
-                          (window-list))
-                  :test 'equal))
-    (progn
-      (other-window 1)
-      (switch-to-buffer buffer-name-string)
-      (other-window -1)))))
+    ((= 1 (count-windows))
+     (progn
+       (split-window-horizontally (floor (- (* 0.38 (window-width)))))
+       (other-window 1)
+       (switch-to-buffer buffer-name-string)
+       (other-window -1)))
+    ((not (cl-find buffer-name-string
+                   (mapcar (lambda (w) (buffer-name (window-buffer w)))
+                           (window-list))
+                   :test 'equal))
+     (progn
+       (other-window 1)
+       (switch-to-buffer buffer-name-string)
+       (other-window -1)))))
 
 
 (defun cicada-nymph-send-line ()
@@ -119,11 +120,11 @@ of `cicada-nymph-program-name').  Runs the hooks `inferior-cicada-nymph-mode-hoo
   (split-window-for-cicada-nymph-with-named-buffer "*cicada-nymph*")
   (cicada-nymph-send-line)
   (cond
-   ((looking-at (rx buffer-end)) (insert 10))
-   (t;else
-    (let ()
-      (next-line)
-      (move-beginning-of-line nil)))))
+    ((looking-at (rx buffer-end)) (insert 10))
+    (:else
+     (let ()
+       (next-line)
+       (move-beginning-of-line nil)))))
 
 
 (defun cicada-nymph-send-region (start end)
@@ -145,7 +146,7 @@ With argument, position cursor at end of buffer."
   (interactive "P")
   (if (get-buffer cicada-nymph-process-buffer)
       (pop-to-buffer cicada-nymph-process-buffer)
-    (error "No current process buffer.  See variable `cicada-nymph-process-buffer'"))
+      (error "No current process buffer.  See variable `cicada-nymph-process-buffer'"))
   (cond (eob-p
          (push-mark)
          (goto-char (point-max)))))
@@ -195,6 +196,6 @@ for a minimal, simple implementation.  Feel free to extend it.")
   "Return the current cicada-nymph process.  See variable `cicada-nymph-process-buffer'."
   (let ((proc (get-buffer-process (if (eq major-mode 'inferior-cicada-nymph-mode)
                                       (current-buffer)
-                                    cicada-nymph-process-buffer))))
+                                      cicada-nymph-process-buffer))))
     (or proc
         (error "No current process.  See variable `cicada-nymph-process-buffer'"))))
