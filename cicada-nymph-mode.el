@@ -195,15 +195,19 @@
 
 
 (make-faces
+ (cicada-nymph-number-face           ((default (:foreground "#fd971f" :bold t))))
+ (cicada-nymph-bool-face             ((default (:foreground "#fd971f" :bold t))))
+ (cicada-nymph-variable-face         ((default (:foreground "#fd971f"))))
+ (cicada-nymph-constant-face         ((default (:foreground "#fd971f" :bold t))))
+
  (cicada-nymph-comment-face          ((default (:foreground "#FF8888"))))
  (cicada-nymph-end-face              ((default (:foreground "#00ffff" :bold t))))
+ (cicada-nymph-exception-face        ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-syntax-key-word-face  ((default (:foreground "#f92672" :bold t))))
- (cicada-nymph-number-face           ((default (:foreground "#fd971f" :bold t))))
+
  (cicada-nymph-sentence-reader-face  ((default (:foreground "#ffff00" :bold t))))
  (cicada-nymph-word-to-define-face   ((default (:foreground "#ef5939" :bold t))))
  (cicada-nymph-lexicographer-face    ((default (:foreground "#ae81ff" :bold t))))
- (cicada-nymph-variable-face         ((default (:foreground "#fd971f"))))
- (cicada-nymph-bool-face             ((default (:foreground "#fd971f" :bold t))))
  (cicada-nymph-type-face             ((default (:foreground "#fd971f"))))
  (cicada-nymph-char-face             ((default (:foreground "#e6db78"))))
  (cicada-nymph-string-face           ((default (:foreground "#e6db74"))))
@@ -286,6 +290,7 @@
          (group (or ;; "literal"
                  "branch"
                  "address"
+                 "jo"
                  ;; "char"
                  ;; "string"
                  "false?branch"
@@ -324,6 +329,19 @@
          word-end)
      (1 'cicada-nymph-number-face))
 
+   ;; constant
+   (,(rx word-start
+         (group ":"
+                (one-or-more (not (in (0 . 32) 127)))
+                ":")
+         word-end)
+     (1 'cicada-nymph-constant-face))
+   (,(rx word-start
+         (group "+"
+                (one-or-more (not (in (0 . 32) 127)))
+                "+")
+         word-end)
+     (1 'cicada-nymph-constant-face))
 
    ;; variable
    (,(rx (seq word-start
@@ -349,7 +367,14 @@
               word-end))
      (1 'cicada-nymph-char-face))
 
-
+   ;; exception   
+   (,(rx (seq word-start
+              (group "!"
+                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
+                     (zero-or-more (not (in (0 . 32) 127))))
+              word-end))
+     (1 'cicada-nymph-exception-face))
+   
    ;; fetch-local-variable
    (,(rx (seq word-start
               (group ":"
@@ -375,8 +400,7 @@
                      (zero-or-more (not (in (0 . 32) 127))))
               word-end))
      (1 'cicada-nymph-fetch-local-variable-4-face))
-
-
+   
    ;; save-local-variable
    (,(rx (seq word-start
               (group ">:"
