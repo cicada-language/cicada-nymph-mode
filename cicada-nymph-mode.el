@@ -213,6 +213,8 @@
  (cicada-nymph-string-face           ((default (:foreground "#e6db74"))))
  (cicada-nymph-wody-face             ((default (:foreground "#a6e22e" :bold t))))
 
+ (cicada-nymph-allocate-face ((default (:foreground "#AE7C3B" :bold t))))
+
  (cicada-nymph-fetch-local-variable-1-face ((default (:foreground "#83EA83" :bold t))))
  (cicada-nymph-fetch-local-variable-2-face ((default (:foreground "#5CDD5C" :bold t))))
  (cicada-nymph-fetch-local-variable-3-face ((default (:foreground "#3DCD3D" :bold t))))
@@ -222,7 +224,6 @@
  (cicada-nymph-save-local-variable-2-face ((default (:foreground "#dc322f" :bold t))))
  (cicada-nymph-save-local-variable-3-face ((default (:foreground "#D41C1C" :bold t))))
  (cicada-nymph-save-local-variable-4-face ((default (:foreground "#AF0B0B" :bold t))))
- (cicada-nymph-save-local-variable-@-face ((default (:foreground "#AE7C3B" :bold t))))
 
  (cicada-nymph-square-brackets-face ((default (:foreground "#93a8c6"))))
  (cicada-nymph-parentheses-face     ((default (:foreground "#b0b1a3"))))
@@ -328,6 +329,13 @@
                 (one-or-more (in (?0 . ?9))))
          word-end)
      (1 'cicada-nymph-number-face))
+   (,(rx word-start
+         (group (one-or-more (in (?0 . ?9)))
+                "#"
+                (zero-or-one "-")
+                (one-or-more (or "_" (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127))))))
+         word-end)
+     (1 'cicada-nymph-number-face))
 
    ;; constant
    (,(rx word-start
@@ -367,14 +375,21 @@
               word-end))
      (1 'cicada-nymph-char-face))
 
-   ;; exception   
+   ;; address
+   (,(rx (seq word-start
+              (group (or "allocate-memory"
+                         "allocate-local-memory"))
+              word-end))
+     (1 'cicada-nymph-allocate-face))
+
+   ;; exception
    (,(rx (seq word-start
               (group "!"
                      (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
                      (zero-or-more (not (in (0 . 32) 127))))
               word-end))
      (1 'cicada-nymph-exception-face))
-   
+
    ;; fetch-local-variable
    (,(rx (seq word-start
               (group ":"
@@ -400,7 +415,7 @@
                      (zero-or-more (not (in (0 . 32) 127))))
               word-end))
      (1 'cicada-nymph-fetch-local-variable-4-face))
-   
+
    ;; save-local-variable
    (,(rx (seq word-start
               (group ">:"
@@ -408,12 +423,6 @@
                      (zero-or-more (not (in (0 . 32) 127))))
               word-end))
      (1 'cicada-nymph-save-local-variable-1-face))
-   (,(rx (seq word-start
-              (group "@:"
-                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
-                     (zero-or-more (not (in (0 . 32) 127))))
-              word-end))
-     (1 'cicada-nymph-save-local-variable-@-face))
    (,(rx (seq word-start
               (group ">::"
                      (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
@@ -493,12 +502,9 @@
   (use-local-map cicada-nymph-mode-map)
   (set (make-local-variable 'font-lock-defaults)
        '(cicada-nymph-font-lock-keywords))
-  (set (make-local-variable
-        'comment-start) "<<")
-  (set (make-local-variable
-        'comment-end)  ">>")
-  (set (make-local-variable
-        'comment-style)  'extra-line)
+  (set (make-local-variable 'comment-start) "<<")
+  (set (make-local-variable 'comment-end)   ">>")
+  (set (make-local-variable 'comment-style) 'aligned)
   (setq major-mode 'cicada-nymph-mode)
   (setq mode-name "cicada-nymph")
   (turn-off-indent)
