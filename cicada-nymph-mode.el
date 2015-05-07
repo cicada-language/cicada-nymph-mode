@@ -196,6 +196,8 @@
 
 (make-faces
  (cicada-nymph-number-face           ((default (:foreground "#fd971f" :bold t))))
+ (cicada-nymph-number-light-face     ((default (:foreground "#ffff00"))))
+
  (cicada-nymph-bool-face             ((default (:foreground "#fd971f" :bold t))))
  (cicada-nymph-variable-face         ((default (:foreground "#fd971f"))))
  (cicada-nymph-constant-face         ((default (:foreground "#fd971f" :bold t))))
@@ -228,6 +230,8 @@
  (cicada-nymph-square-brackets-face ((default (:foreground "#93a8c6"))))
  (cicada-nymph-parentheses-face     ((default (:foreground "#b0b1a3"))))
  (cicada-nymph-curly-braces-face    ((default (:foreground "#aebed8"))))
+
+ (cicada-nymph-title-face           ((default (:foreground "#ffffff" :bold t))))
  )
 
 
@@ -330,12 +334,14 @@
          word-end)
      (1 'cicada-nymph-number-face))
    (,(rx word-start
-         (group (one-or-more (in (?0 . ?9)))
-                "#"
-                (zero-or-one "-")
+         (group (one-or-more (in (?0 . ?9))))
+         (group "#")
+         (group (zero-or-one "-")
                 (one-or-more (or "_" (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127))))))
          word-end)
-     (1 'cicada-nymph-number-face))
+     (1 'cicada-nymph-number-face)
+     (2 'cicada-nymph-number-light-face)
+     (3 'cicada-nymph-number-face))
 
    ;; constant
    (,(rx word-start
@@ -485,6 +491,15 @@
           ;; word-end
           ))
      (1 'cicada-nymph-curly-braces-face))
+
+   ;; title
+   (,(rx (seq word-start
+              (group (one-or-more (not (in (0 . 32) 127 ","))))
+              ","
+              (one-or-more (not (in (0 . 32) 127)))
+              word-end))
+     (1 'cicada-nymph-title-face))
+   
    ))
 
 
