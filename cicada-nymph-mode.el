@@ -207,9 +207,6 @@
  (cicada-nymph-exception-face        ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-syntax-key-word-face  ((default (:foreground "#f92672" :bold t))))
 
- (cicada-nymph-sentence-reader-face  ((default (:foreground "#ffff00" :bold t))))
- (cicada-nymph-word-to-define-face   ((default (:foreground "#ef5939" :bold t))))
- (cicada-nymph-lexicographer-face    ((default (:foreground "#ae81ff" :bold t))))
  (cicada-nymph-type-face             ((default (:foreground "#fd971f"))))
  (cicada-nymph-char-face             ((default (:foreground "#e6db78"))))
  (cicada-nymph-string-face           ((default (:foreground "#e6db74"))))
@@ -227,11 +224,19 @@
  (cicada-nymph-save-local-variable-3-face ((default (:foreground "#D41C1C" :bold t))))
  (cicada-nymph-save-local-variable-4-face ((default (:foreground "#AF0B0B" :bold t))))
 
- (cicada-nymph-square-brackets-face ((default (:foreground "#93a8c6"))))
- (cicada-nymph-parentheses-face     ((default (:foreground "#b0b1a3"))))
- (cicada-nymph-curly-braces-face    ((default (:foreground "#aebed8"))))
+ (cicada-nymph-square-brackets-face  ((default (:foreground "#93a8c6"))))
+ (cicada-nymph-parentheses-face      ((default (:foreground "#b0b1a3"))))
+ (cicada-nymph-curly-braces-face     ((default (:foreground "#aebed8"))))
 
- (cicada-nymph-title-face           ((default (:foreground "#ffffff" :bold t))))
+ (cicada-nymph-title-face            ((default (:foreground "#ffffff" :bold t))))
+
+ (cicada-nymph-sentence-reader-face  ((default (:foreground "#ffff00" :bold t))))
+ (cicada-nymph-word-to-define-face   ((default (:foreground "#ef5939" :bold t))))
+ (cicada-nymph-lexicographer-face    ((default (:foreground "#ae81ff" :bold t))))
+
+ (cicada-nymph-meta-code-begin-face  ((default (:foreground "#ef5939" :bold t))))
+ (cicada-nymph-meta-code-end-face    ((default (:foreground "#ae81ff" :bold t))))
+
  )
 
 
@@ -243,6 +248,16 @@
 (setq
  cicada-nymph-font-lock-keywords
  `(;; in the following, order matters
+
+   ;; meta-code
+   (,(rx (seq word-start
+              (group "::::::" (zero-or-more ":"))
+              word-end))
+     (1 'cicada-nymph-meta-code-begin-face))
+   (,(rx (seq word-start
+              (group "------" (zero-or-more "-"))
+              word-end))
+     (1 'cicada-nymph-meta-code-end-face))
 
    ;; string
    (,(rx (minimal-match
@@ -292,7 +307,8 @@
      (1 'cicada-nymph-end-face))
 
    (,(rx word-start
-         (group (or ;; "literal"
+         (group (or
+                 ;; "literal"
                  "branch"
                  "address"
                  "jo"
@@ -306,8 +322,7 @@
          word-end)
      (1 'cicada-nymph-syntax-key-word-face))
 
-
-   ;; lexicographer & reader for lexicographer
+   ;; sentence-reader begin & word-to-define
    (,(rx (seq word-start
               (group (or ":"))
               (one-or-more " ")
@@ -316,16 +331,22 @@
      (1 'cicada-nymph-sentence-reader-face)
      (2 'cicada-nymph-word-to-define-face))
 
+   ;; sentence-reader end
    (,(rx word-start
          (group (or ";"))
          word-end)
-     (1 'cicada-nymph-sentence-reader-face)
-     (,(rx word-start
-           (group (one-or-more (not (in (0 . 32) 127))))
-           word-end)
-       nil
-       nil
-       (1 'cicada-nymph-lexicographer-face)))
+     (1 'cicada-nymph-sentence-reader-face))
+
+   ;; lexicographer
+   (,(rx word-start
+         (group (or
+                 "define-function"
+                 "define-exception"
+                 "define-variable"
+                 "define-variable,with-tos"
+                 ))
+         word-end)
+     (1 'cicada-nymph-lexicographer-face))
 
    ;; number
    (,(rx word-start
@@ -499,7 +520,7 @@
               (one-or-more (not (in (0 . 32) 127)))
               word-end))
      (1 'cicada-nymph-title-face))
-   
+
    ))
 
 
