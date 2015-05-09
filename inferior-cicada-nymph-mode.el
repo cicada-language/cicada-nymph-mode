@@ -47,9 +47,10 @@ Commands:
 Return after the end of the process' output sends the text from the
 end of process to point. If you accidentally suspend your process, use
 \\[comint-continue-subjob] to continue it. "
-                     ;; Customise in inferior-cicada-nymph-mode-hook
-                     (setq comint-prompt-regexp "^")
-                     (setq mode-line-process '(":%s")))
+  ;; Customise in inferior-cicada-nymph-mode-hook
+  (set-syntax-table cicada-nymph-mode-syntax-table)
+  (setq comint-prompt-regexp "^")
+  (setq mode-line-process '(":%s")))
 
 (defun cicada-nymph-args-to-list (string)
   (let ((where (string-match "[ \t]" string)))
