@@ -242,6 +242,10 @@
 
 ;; non blank:
 ;; (not (in (0 . 32) 127))
+
+;; blank:
+;; (in (0 . 32) 127)
+
 ;; alphabet or number:
 ;; (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
 
@@ -331,14 +335,10 @@
      (1 'cicada-nymph-sentence-reader-face)
      (2 'cicada-nymph-word-to-define-face))
 
-   ;; sentence-reader end
-   (,(rx word-start
-         (group (or ";"))
-         word-end)
-     (1 'cicada-nymph-sentence-reader-face))
-
    ;; lexicographer
    (,(rx word-start
+         (group ";")
+         (one-or-more " ")
          (group (or
                  "define-function"
                  "define-exception"
@@ -346,7 +346,14 @@
                  "define-variable,with-tos"
                  ))
          word-end)
-     (1 'cicada-nymph-lexicographer-face))
+     (1 'cicada-nymph-sentence-reader-face)
+     (2 'cicada-nymph-lexicographer-face))
+
+   ;; sentence-reader end
+   (,(rx word-start
+         (group (or ";"))
+         word-end)
+     (1 'cicada-nymph-sentence-reader-face))
 
    ;; number
    (,(rx word-start
