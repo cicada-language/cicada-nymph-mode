@@ -320,6 +320,8 @@
                  "branch"
                  "address"
                  "jo"
+                 "name"
+                 "exception-reset-stack"
                  ;; "char"
                  ;; "string"
                  "false?branch"
