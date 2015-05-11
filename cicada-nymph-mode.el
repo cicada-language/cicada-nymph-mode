@@ -198,13 +198,8 @@
  (cicada-nymph-number-face           ((default (:foreground "#fd971f" :bold t))))
  (cicada-nymph-number-light-face     ((default (:foreground "#ffff00"))))
 
- (cicada-nymph-bool-face             ((default (:foreground "#fd971f" :bold t))))
- (cicada-nymph-variable-face         ((default (:foreground "#fd971f"))))
- (cicada-nymph-constant-face         ((default (:foreground "#fd971f" :bold t))))
-
  (cicada-nymph-comment-face          ((default (:foreground "#FF8888"))))
  (cicada-nymph-end-face              ((default (:foreground "#00ffff" :bold t))))
- (cicada-nymph-exception-face        ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-syntax-key-word-face  ((default (:foreground "#f92672" :bold t))))
 
  (cicada-nymph-type-face             ((default (:foreground "#fd971f"))))
@@ -231,8 +226,17 @@
  (cicada-nymph-title-face            ((default (:foreground "#ffffff" :bold t))))
 
  (cicada-nymph-sentence-reader-face  ((default (:foreground "#ffff00" :bold t))))
- (cicada-nymph-word-to-define-face   ((default (:foreground "#ef5939" :bold t))))
- (cicada-nymph-lexicographer-face    ((default (:foreground "#ae81ff" :bold t))))
+
+ (cicada-nymph-function-to-define-face ((default (:foreground "#ef5939" :bold t))))
+ (cicada-nymph-define-function-face    ((default (:foreground "#ae81ff" :bold t))))
+
+ (cicada-nymph-exception-face         ((default (:foreground "#00ffff" :bold t))))
+ (cicada-nymph-define-exception-face  ((default (:foreground "#1ef15f" :bold t))))
+
+ (cicada-nymph-bool-face             ((default (:foreground "#fd971f" :bold t))))
+ (cicada-nymph-variable-face         ((default (:foreground "#fd971f" :bold t))))
+ (cicada-nymph-constant-face         ((default (:foreground "#fd971f" :bold t))))
+ (cicada-nymph-define-variable-face  ((default (:foreground "#a1ab3a" :bold t))))
 
  (cicada-nymph-meta-code-begin-face  ((default (:foreground "#ef5939" :bold t))))
  (cicada-nymph-meta-code-end-face    ((default (:foreground "#ae81ff" :bold t))))
@@ -326,6 +330,22 @@
          word-end)
      (1 'cicada-nymph-syntax-key-word-face))
 
+   ;; exception
+   (,(rx (seq word-start
+              (group "!"
+                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
+                     (zero-or-more (not (in (0 . 32) 127))))
+              word-end))
+     (1 'cicada-nymph-exception-face))
+
+   ;; variable
+   (,(rx (seq word-start
+              (group "*"
+                     (one-or-more (not (in (0 . 32) 127)))
+                     "*")
+              word-end))
+     (1 'cicada-nymph-variable-face))
+
    ;; sentence-reader begin & word-to-define
    (,(rx (seq word-start
               (group (or ":"))
@@ -333,21 +353,41 @@
               (group (one-or-more (not (in (0 . 32) 127))))
               word-end))
      (1 'cicada-nymph-sentence-reader-face)
-     (2 'cicada-nymph-word-to-define-face))
+     (2 'cicada-nymph-function-to-define-face))
 
-   ;; lexicographer
+   ;; define-function
    (,(rx word-start
          (group ";")
          (one-or-more " ")
          (group (or
                  "define-function"
+                 ))
+         word-end)
+     (1 'cicada-nymph-sentence-reader-face)
+     (2 'cicada-nymph-define-function-face))
+
+   ;; define-exception
+   (,(rx word-start
+         (group ";")
+         (one-or-more " ")
+         (group (or
                  "define-exception"
+                 ))
+         word-end)
+     (1 'cicada-nymph-sentence-reader-face)
+     (2 'cicada-nymph-define-exception-face))
+
+   ;; define-variable
+   (,(rx word-start
+         (group ";")
+         (one-or-more " ")
+         (group (or
                  "define-variable"
                  "define-variable,with-tos"
                  ))
          word-end)
      (1 'cicada-nymph-sentence-reader-face)
-     (2 'cicada-nymph-lexicographer-face))
+     (2 'cicada-nymph-define-variable-face))
 
    ;; sentence-reader end
    (,(rx word-start
@@ -385,14 +425,6 @@
          word-end)
      (1 'cicada-nymph-constant-face))
 
-   ;; variable
-   (,(rx (seq word-start
-              (group "*"
-                     (one-or-more (not (in (0 . 32) 127)))
-                     "*")
-              word-end))
-     (1 'cicada-nymph-variable-face))
-
    ;; important-noun
    (,(rx word-start
          (group (or "false"
@@ -415,14 +447,6 @@
                          "allocate-local-memory"))
               word-end))
      (1 'cicada-nymph-allocate-face))
-
-   ;; exception
-   (,(rx (seq word-start
-              (group "!"
-                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
-                     (zero-or-more (not (in (0 . 32) 127))))
-              word-end))
-     (1 'cicada-nymph-exception-face))
 
    ;; fetch-local-variable
    (,(rx (seq word-start
