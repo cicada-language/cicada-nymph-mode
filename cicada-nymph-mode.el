@@ -310,7 +310,8 @@
    ;; very special words
    (,(rx word-start
          (group (or "end"
-                    "<>"))
+                    "<>"
+                    "bye"))
          word-end)
      (1 'cicada-nymph-end-face))
 
