@@ -311,7 +311,9 @@
    (,(rx word-start
          (group (or "end"
                     "<>"
-                    "bye"))
+                    "bye"
+                    "reset-top-level-REPL"
+                    ))
          word-end)
      (1 'cicada-nymph-end-face))
 
