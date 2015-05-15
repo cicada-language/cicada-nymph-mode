@@ -311,6 +311,7 @@
    (,(rx word-start
          (group (or "end"
                     "<>"
+                    "loop"
                     "bye"
                     "reset-top-level-REPL"
                     ))
@@ -319,18 +320,17 @@
 
    (,(rx word-start
          (group (or
-                 ;; "literal"
                  "branch"
                  "address"
+                 "save-to"
                  "jo"
                  "name"
                  "exception-reset-stack"
-                 ;; "char"
-                 ;; "string"
                  "false?branch"
                  "if"
                  "else"
                  "then"
+                 "recur"
                  ))
          word-end)
      (1 'cicada-nymph-syntax-key-word-face))
