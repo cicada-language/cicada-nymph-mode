@@ -60,7 +60,7 @@
         `(setq ,name
                (make-char-table 'syntax-table (string-to-syntax "w")))
         (cons 'progn
-              (mapcar (lambda (char-and-newentry) 
+              (mapcar (lambda (char-and-newentry)
                         (append (list 'modify-syntax-entry)
                                 char-and-newentry
                                 (list name)))
@@ -178,7 +178,7 @@
     (progn
       (point-to-register 666)
       (move-beginning-of-line 1)
-      (insert " ")  
+      (insert " ")
       (jump-to-register 666))))
 
 (defun move-line-backword ()
@@ -211,7 +211,7 @@
            (with-syntax-table
                word-syntax-table-with-open/close-delimiter
              (forward-sexp -1))))
-        
+
         ((looking-at "\\[")
          (message "[ ] --> { }")
          (let ()
@@ -227,7 +227,7 @@
            (with-syntax-table
                word-syntax-table-with-open/close-delimiter
              (forward-sexp -1))))
-        
+
         ((looking-at "\{")
          (message "{ } --> ( )")
          (let ()
@@ -243,7 +243,7 @@
            (with-syntax-table
                word-syntax-table-with-open/close-delimiter
              (forward-sexp -1))))
-        
+
         (t ;;else
          (message "change-parentheses have nothing to do here !"))))
 
@@ -464,7 +464,6 @@
  (cicada-nymph-end-face              ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-syntax-key-word-face  ((default (:foreground "#f92672" :bold t))))
 
- (cicada-nymph-type-face             ((default (:foreground "#fd971f"))))
  (cicada-nymph-char-face             ((default (:foreground "#e6db78"))))
  (cicada-nymph-string-face           ((default (:foreground "#e6db74"))))
  (cicada-nymph-wody-face             ((default (:foreground "#a6e22e" :bold t))))
@@ -486,6 +485,7 @@
  (cicada-nymph-curly-braces-face     ((default (:foreground "#aebed8"))))
 
  (cicada-nymph-title-face            ((default (:foreground "#ffffff" :bold t))))
+ (cicada-nymph-<data>-face             ((default (:foreground "#ffffff" :bold t))))
 
  (cicada-nymph-sentence-reader-face  ((default (:foreground "#ffff00" :bold t))))
 
@@ -572,7 +572,7 @@
    ;; very special words
    (,(rx word-start
          (group (or "end"
-                    "<>"
+                    "tail-call"
                     "loop"
                     "bye"
                     "reset-top-level-REPL"
@@ -787,7 +787,7 @@
                      (one-or-more (not (in (0 . 32) 127)))
                      ">")
               word-end))
-     (1 'cicada-nymph-type-face))
+     (1 'cicada-nymph-<data>-face))
 
 
    ;; square-brackets
