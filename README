@@ -3,8 +3,6 @@
 #+EMAIL:  xyheme@gmail.com
 
 * ===================================
-* note dependence
-  * xyh-emacs-lib
 * note
   * do not insert <tab> in cicada-nymph-mode
   * note that
@@ -14,28 +12,27 @@
     written by other people
     always do not satisfy my need
   * while
-    I provide the following functions 
+    I provide the following functions
     to help you to indent your code :
     1. turn-on-indent
     2. turn-off-indent
     3. move-line-foreword
     4. move-line-backword
-    these four functions are defined in xyh-emacs-lib
 * note problem
   * sometimes
     when using << >> to comment many lines of code
     syntax highlighting of the comment will fail
   * to kill this bug
-    one HAVE TO scan almost the whole buffer 
+    one HAVE TO scan almost the whole buffer
     very frequently
     this will make the performance unacceptable (to me)
-  * and 
+  * and
     I will wait for a better text editor to solve this problem
-  * I will NOT provide "\" and "end-of-line" 
+  * I will NOT provide "\" and "end-of-line"
     as a another pair to make comment in cicada-nymph
     NOR will I comment many continuous lines
     with many << >> pairs in my cicada-nymph code
-  * because 
+  * because
     my friends and I will write a new text editor
     which is better than emacs
 * the way I use cicada-nymph-mode
@@ -65,6 +62,6 @@
      (local-set-key (kbd "C-c C-e")
                     'cicada-nymph-send-region-and-split-window)
      (local-set-key (kbd "C-<tab>")
-                    'cicada-nymph-send-line-and-split-window-and-goto-next-line)))  
+                    'cicada-nymph-send-line-and-split-window-and-goto-next-line)))
   #+end_src
 * ===================================

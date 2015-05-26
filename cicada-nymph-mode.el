@@ -484,13 +484,15 @@
  (cicada-nymph-parentheses-face      ((default (:foreground "#b0b1a3"))))
  (cicada-nymph-curly-braces-face     ((default (:foreground "#aebed8"))))
 
- (cicada-nymph-title-face            ((default (:foreground "#ffffff" :bold t))))
+ (cicada-nymph-title-face              ((default (:foreground "#ffffff" :bold t))))
  (cicada-nymph-<data>-face             ((default (:foreground "#ffffff" :bold t))))
 
  (cicada-nymph-sentence-reader-face  ((default (:foreground "#ffff00" :bold t))))
 
  (cicada-nymph-function-to-define-face ((default (:foreground "#ef5939" :bold t))))
  (cicada-nymph-define-function-face    ((default (:foreground "#ae81ff" :bold t))))
+
+ (cicada-nymph-define-alias-face       ((default (:foreground "#ffffff" :bold t))))
 
  (cicada-nymph-exception-face         ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-define-exception-face  ((default (:foreground "#1ef15f" :bold t))))
@@ -525,7 +527,7 @@
               word-end))
      (1 'cicada-nymph-meta-code-begin-face))
    (,(rx (seq word-start
-              (group "------" (zero-or-more "-"))
+              (group "======" (zero-or-more "="))
               word-end))
      (1 'cicada-nymph-meta-code-end-face))
 
@@ -613,10 +615,23 @@
               word-end))
      (1 'cicada-nymph-variable-face))
 
+   ;; sentence-reader begin & <title> word-to-define
+   (,(rx (seq word-start
+              (group (or ":"))
+              (one-or-more (in (0 . 32) 127))
+              (group "<"
+                     (one-or-more (not (in (0 . 32) 127)))
+                     ">"
+                     (one-or-more (in (0 . 32) 127))
+                     (one-or-more (not (in (0 . 32) 127))))
+              word-end))
+     (1 'cicada-nymph-sentence-reader-face)
+     (2 'cicada-nymph-function-to-define-face))
+
    ;; sentence-reader begin & word-to-define
    (,(rx (seq word-start
               (group (or ":"))
-              (one-or-more " ")
+              (one-or-more (in (0 . 32) 127))
               (group (one-or-more (not (in (0 . 32) 127))))
               word-end))
      (1 'cicada-nymph-sentence-reader-face)
@@ -628,10 +643,22 @@
          (one-or-more " ")
          (group (or
                  "define-function"
+                 "define-function,with-title"
                  ))
          word-end)
      (1 'cicada-nymph-sentence-reader-face)
      (2 'cicada-nymph-define-function-face))
+
+   ;; define-alias
+   (,(rx word-start
+         (group ";")
+         (one-or-more " ")
+         (group (or
+                 "define-alias"
+                 ))
+         word-end)
+     (1 'cicada-nymph-sentence-reader-face)
+     (2 'cicada-nymph-define-alias-face))
 
    ;; define-exception
    (,(rx word-start
