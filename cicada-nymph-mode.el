@@ -586,7 +586,6 @@
          (group (or
                  "branch"
                  "address"
-                 "save-to"
                  "jo"
                  "name"
                  "exception-reset-stack"
