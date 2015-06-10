@@ -571,33 +571,6 @@
      (2 'cicada-nymph-comment-face t)
      (3 'cicada-nymph-comment-face t))
 
-   ;; very special words
-   (,(rx word-start
-         (group (or "end"
-                    "tail-call"
-                    "loop"
-                    "bye"
-                    "reset-top-level-REPL"
-                    ))
-         word-end)
-     (1 'cicada-nymph-end-face))
-
-   (,(rx word-start
-         (group (or
-                 "branch"
-                 "address"
-                 "jo"
-                 "name"
-                 "exception-reset-stack"
-                 "false?branch"
-                 "if"
-                 "else"
-                 "then"
-                 "recur"
-                 ))
-         word-end)
-     (1 'cicada-nymph-syntax-key-word-face))
-
    ;; exception
    (,(rx (seq word-start
               (group "!"
@@ -807,13 +780,18 @@
      (1 'cicada-nymph-wody-face))
 
 
-   ;; type
+   ;; <title> name
    (,(rx (seq word-start
               (group "<"
                      (one-or-more (not (in (0 . 32) 127)))
                      ">")
+              word-end
+              (one-or-more (in (0 . 32) 127))
+              word-start
+              (group (one-or-more (not (in (0 . 32) 127))))
               word-end))
-     (1 'cicada-nymph-<data>-face))
+     (1 'cicada-nymph-<data>-face)
+     (2 'cicada-nymph-<data>-face))
 
 
    ;; square-brackets
@@ -844,6 +822,34 @@
               (one-or-more (not (in (0 . 32) 127)))
               word-end))
      (1 'cicada-nymph-title-face))
+
+
+   ;; very special words
+   (,(rx word-start
+         (group (or "end"
+                    "tail-call"
+                    "loop"
+                    "bye"
+                    "reset-top-level-REPL"
+                    ))
+         word-end)
+     (1 'cicada-nymph-end-face))
+
+   (,(rx word-start
+         (group (or
+                 "branch"
+                 "address"
+                 "jo"
+                 "name"
+                 "exception-reset-stack"
+                 "false?branch"
+                 "if"
+                 "else"
+                 "then"
+                 "recur"
+                 ))
+         word-end)
+     (1 'cicada-nymph-syntax-key-word-face))
 
    ))
 
