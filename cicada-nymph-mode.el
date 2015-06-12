@@ -464,7 +464,8 @@
  (cicada-nymph-end-face              ((default (:foreground "#00ffff" :bold t))))
  (cicada-nymph-syntax-key-word-face  ((default (:foreground "#f92672" :bold t))))
 
- (cicada-nymph-char-face             ((default (:foreground "#e6db78"))))
+ (cicada-nymph-quote-face            ((default (:foreground "#fd971f" :bold t))))
+
  (cicada-nymph-string-face           ((default (:foreground "#e6db74"))))
  (cicada-nymph-wody-face             ((default (:foreground "#a6e22e" :bold t))))
 
@@ -494,8 +495,7 @@
 
  (cicada-nymph-define-alias-face       ((default (:foreground "#ffffff" :bold t))))
 
- (cicada-nymph-exception-face         ((default (:foreground "#00ffff" :bold t))))
- (cicada-nymph-define-exception-face  ((default (:foreground "#1ef15f" :bold t))))
+ (cicada-nymph-await-face  ((default (:foreground "#1ef15f" :bold t))))
 
  (cicada-nymph-bool-face             ((default (:foreground "#fd971f" :bold t))))
  (cicada-nymph-variable-face         ((default (:foreground "#fd971f" :bold t))))
@@ -571,14 +571,6 @@
      (2 'cicada-nymph-comment-face t)
      (3 'cicada-nymph-comment-face t))
 
-   ;; exception
-   (,(rx (seq word-start
-              (group "!"
-                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
-                     (zero-or-more (not (in (0 . 32) 127))))
-              word-end))
-     (1 'cicada-nymph-exception-face))
-
    ;; variable
    (,(rx (seq word-start
               (group "*"
@@ -634,14 +626,11 @@
 
    ;; define-exception
    (,(rx word-start
-         (group ";")
-         (one-or-more " ")
          (group (or
-                 "define-exception"
+                 "await"
                  ))
          word-end)
-     (1 'cicada-nymph-sentence-reader-face)
-     (2 'cicada-nymph-define-exception-face))
+     (1 'cicada-nymph-await-face))
 
    ;; define-variable
    (,(rx word-start
@@ -699,13 +688,12 @@
          word-end)
      (1 'cicada-nymph-bool-face))
 
-   ;; char
+   ;; quote
    (,(rx (seq word-start
               (group "'"
-                     (zero-or-more (not (in (0 . 32) 127)))
-                     "'")
+                     (zero-or-more (not (in (0 . 32) 127))))
               word-end))
-     (1 'cicada-nymph-char-face))
+     (1 'cicada-nymph-quote-face))
 
    ;; address
    (,(rx (seq word-start
@@ -828,6 +816,8 @@
    (,(rx word-start
          (group (or "end"
                     "tail-call"
+                    "apply-with-return-point"
+                    "awake"
                     "loop"
                     "bye"
                     "reset-top-level-REPL"
