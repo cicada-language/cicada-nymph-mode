@@ -467,7 +467,7 @@
  (cicada-nymph-quote-face            ((default (:foreground "#fd971f" :bold t))))
 
  (cicada-nymph-string-face           ((default (:foreground "#e6db74"))))
- (cicada-nymph-wody-face             ((default (:foreground "#a6e22e" :bold t))))
+ (cicada-nymph-module-word-face      ((default (:foreground "#a6e22e" :bold t))))
 
  (cicada-nymph-allocate-face ((default (:foreground "#AE7C3B" :bold t))))
 
@@ -496,6 +496,7 @@
  (cicada-nymph-define-alias-face       ((default (:foreground "#ffffff" :bold t))))
 
  (cicada-nymph-await-face  ((default (:foreground "#1ef15f" :bold t))))
+ (cicada-nymph-test-face   ((default (:foreground "#1ef15f" :bold t))))
 
  (cicada-nymph-bool-face             ((default (:foreground "#fd971f" :bold t))))
  (cicada-nymph-variable-face         ((default (:foreground "#fd971f" :bold t))))
@@ -624,13 +625,21 @@
      (1 'cicada-nymph-sentence-reader-face)
      (2 'cicada-nymph-define-alias-face))
 
-   ;; define-exception
+   ;; await
    (,(rx word-start
          (group (or
                  "await"
                  ))
          word-end)
      (1 'cicada-nymph-await-face))
+
+   ;; test
+   (,(rx word-start
+         (group (or
+                 "test"
+                 ))
+         word-end)
+     (1 'cicada-nymph-test-face))
 
    ;; define-variable
    (,(rx word-start
@@ -754,7 +763,7 @@
               word-end))
      (1 'cicada-nymph-save-local-variable-4-face))
 
-   ;; wody
+   ;; module-word
    (,(rx (seq word-start
               (group
                (or
@@ -765,7 +774,16 @@
                 (seq (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
                      ":")))
               word-end))
-     (1 'cicada-nymph-wody-face))
+     (1 'cicada-nymph-module-word-face))
+   (,(rx word-start
+         (group (or
+                 "import"
+                 "load"
+                 "load-with-test"
+                 ))
+         word-end)
+     (1 'cicada-nymph-module-word-face))
+
 
 
    ;; <title> name
