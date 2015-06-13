@@ -574,6 +574,16 @@
 
    ;; variable
    (,(rx (seq word-start
+              (group "<"
+                     (one-or-more (not (in (0 . 32) 127)))
+                     ">"
+                     (one-or-more (in (0 . 32) 127))
+                     "*"
+                     (one-or-more (not (in (0 . 32) 127)))
+                     "*")
+              word-end))
+     (1 'cicada-nymph-variable-face))
+   (,(rx (seq word-start
               (group "*"
                      (one-or-more (not (in (0 . 32) 127)))
                      "*")
@@ -639,6 +649,7 @@
                  "test"
                  "test-function"
                  "test-variable"
+                 "test-variable,with-tos"
                  "test-do"
                  ))
          word-end)
