@@ -637,6 +637,9 @@
    (,(rx word-start
          (group (or
                  "test"
+                 "test-function"
+                 "test-variable"
+                 "test-do"
                  ))
          word-end)
      (1 'cicada-nymph-test-face))
