@@ -486,7 +486,6 @@
  (cicada-nymph-curly-braces-face     ((default (:foreground "#aebed8"))))
 
  (cicada-nymph-title-face              ((default (:foreground "#ffffff" :bold t))))
- (cicada-nymph-<data>-face             ((default (:foreground "#ffffff" :bold t))))
 
  (cicada-nymph-sentence-reader-face  ((default (:foreground "#ffff00" :bold t))))
 
@@ -574,10 +573,9 @@
 
    ;; variable
    (,(rx (seq word-start
-              (group "<"
-                     (one-or-more (not (in (0 . 32) 127)))
-                     ">"
-                     (one-or-more (in (0 . 32) 127))
+              (group (one-or-more (not (in (0 . 32) 127 ":")))
+                     ":"
+                     ;; (one-or-more (in (0 . 32) 127))
                      "*"
                      (one-or-more (not (in (0 . 32) 127)))
                      "*")
@@ -590,18 +588,18 @@
               word-end))
      (1 'cicada-nymph-variable-face))
 
-   ;; sentence-reader begin & <title> word-to-define
-   (,(rx (seq word-start
-              (group (or ":"))
-              (one-or-more (in (0 . 32) 127))
-              (group "<"
-                     (one-or-more (not (in (0 . 32) 127)))
-                     ">"
-                     (one-or-more (in (0 . 32) 127))
-                     (one-or-more (not (in (0 . 32) 127))))
-              word-end))
-     (1 'cicada-nymph-sentence-reader-face)
-     (2 'cicada-nymph-function-to-define-face))
+   ;; ;; sentence-reader begin & <title> word-to-define
+   ;; (,(rx (seq word-start
+   ;;            (group (or ":"))
+   ;;            (one-or-more (in (0 . 32) 127))
+   ;;            (group "<"
+   ;;                   (one-or-more (not (in (0 . 32) 127)))
+   ;;                   ">"
+   ;;                   (one-or-more (in (0 . 32) 127))
+   ;;                   (one-or-more (not (in (0 . 32) 127))))
+   ;;            word-end))
+   ;;   (1 'cicada-nymph-sentence-reader-face)
+   ;;   (2 'cicada-nymph-function-to-define-face))
 
    ;; sentence-reader begin & word-to-define
    (,(rx (seq word-start
@@ -721,7 +719,8 @@
    ;; address
    (,(rx (seq word-start
               (group (or "allocate-memory"
-                         "allocate-local-memory"))
+                         "allocate-local-memory"
+                         "allocate-conjugate-local-memory"))
               word-end))
      (1 'cicada-nymph-allocate-face))
 
@@ -800,19 +799,15 @@
 
 
 
-   ;; <title> name
+   ;; title:name
    (,(rx (seq word-start
-              (group "<"
-                     (one-or-more (not (in (0 . 32) 127)))
-                     ">")
-              word-end
-              (one-or-more (in (0 . 32) 127))
-              word-start
+              (group (one-or-more (not (in (0 . 32) 127)))
+                     ":")
               (group (one-or-more (not (in (0 . 32) 127))))
               word-end))
-     (1 'cicada-nymph-<data>-face)
-     (2 'cicada-nymph-<data>-face))
-
+     (1 'cicada-nymph-title-face)
+     ;; (2 'cicada-nymph-title-face)
+     )
 
    ;; square-brackets
    (,(rx (seq ;; word-start
@@ -834,15 +829,6 @@
           ;; word-end
           ))
      (1 'cicada-nymph-curly-braces-face))
-
-   ;; title
-   (,(rx (seq word-start
-              (group (one-or-more (not (in (0 . 32) 127 ","))))
-              ","
-              (one-or-more (not (in (0 . 32) 127)))
-              word-end))
-     (1 'cicada-nymph-title-face))
-
 
    ;; very special words
    (,(rx word-start
