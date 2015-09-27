@@ -617,6 +617,9 @@
          (group (or
                  "define-function"
                  "define-function,with-title"
+                 "define-type"
+                 "define"
+                 "define-module"
                  ))
          word-end)
      (1 'cicada-nymph-sentence-reader-face)
@@ -793,6 +796,7 @@
                  "import"
                  "load"
                  "load-with-test"
+                 "assume"
                  ))
          word-end)
      (1 'cicada-nymph-module-word-face))
@@ -816,9 +820,28 @@
           ))
      (1 'cicada-nymph-square-brackets-face))
 
-   ;; parentheses
+   ;; (... -> ...)
    (,(rx (seq ;; word-start
-          (group (or "(" ")"))
+          (group "(")
+          (zero-or-more (not (in "(" "->" ")")))
+          (group "->")
+          (zero-or-more (not (in "(" "->" ")")))
+          (group ")")
+          ;; word-end
+          ))
+     (1 'cicada-nymph-parentheses-face)
+     (2 'cicada-nymph-parentheses-face)
+     (3 'cicada-nymph-parentheses-face))
+   ;; (,(rx (seq ;; word-start
+   ;;        (group (or "(" ")"))
+   ;;        ;; word-end
+   ;;        ))
+   ;;   (1 'cicada-nymph-parentheses-face))
+
+   ;; *
+   ;; |
+   (,(rx (seq ;; word-start
+          (group (or "*" "|"))
           ;; word-end
           ))
      (1 'cicada-nymph-parentheses-face))
