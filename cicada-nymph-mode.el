@@ -622,9 +622,15 @@
          (group (or
                  "define-function"
                  "define-function,with-title"
+
                  "define-type"
                  "define"
+
                  "define-module"
+
+                 "proof-theorem"
+                 "introduce-axiom"
+
                  ))
          word-end)
      (1 'cicada-nymph-sentence-reader-face)
