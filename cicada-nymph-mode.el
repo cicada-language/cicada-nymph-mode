@@ -481,6 +481,11 @@
  (cicada-nymph-save-local-variable-3-face ((default (:foreground "#D41C1C" :bold t))))
  (cicada-nymph-save-local-variable-4-face ((default (:foreground "#AF0B0B" :bold t))))
 
+ (cicada-nymph-sharp-1-face ((default (:foreground "#898E53"))))
+ (cicada-nymph-sharp-2-face ((default (:foreground "#5F642F"))))
+ (cicada-nymph-sharp-3-face ((default (:foreground "#4B501B"))))
+ (cicada-nymph-sharp-4-face ((default (:foreground "#34380B"))))
+
  (cicada-nymph-square-brackets-face  ((default (:foreground "#93a8c6"))))
  (cicada-nymph-parentheses-face      ((default (:foreground "#b0b1a3"))))
  (cicada-nymph-curly-braces-face     ((default (:foreground "#aebed8"))))
@@ -779,6 +784,32 @@
               word-end))
      (1 'cicada-nymph-save-local-variable-4-face))
 
+   ;; binding variable of value of type
+   (,(rx (seq word-start
+              (group "#"
+                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
+                     (zero-or-more (not (in (0 . 32) 127))))
+              word-end))
+     (1 'cicada-nymph-sharp-1-face))
+   (,(rx (seq word-start
+              (group "##"
+                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
+                     (zero-or-more (not (in (0 . 32) 127))))
+              word-end))
+     (1 'cicada-nymph-sharp-2-face))
+   (,(rx (seq word-start
+              (group "###"
+                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
+                     (zero-or-more (not (in (0 . 32) 127))))
+              word-end))
+     (1 'cicada-nymph-sharp-3-face))
+   (,(rx (seq word-start
+              (group "####"
+                     (not (in (0 . 47) (58 . 64) (91 . 96) (123 . 127)))
+                     (zero-or-more (not (in (0 . 32) 127))))
+              word-end))
+     (1 'cicada-nymph-sharp-4-face))
+
    ;; module-word
    (,(rx (seq word-start
               (group
@@ -821,17 +852,26 @@
      (1 'cicada-nymph-square-brackets-face))
 
    ;; (... -> ...)
-   (,(rx (seq ;; word-start
-          (group "(")
-          (zero-or-more (not (in "(" "->" ")")))
-          (group "->")
-          (zero-or-more (not (in "(" "->" ")")))
-          (group ")")
-          ;; word-end
-          ))
-     (1 'cicada-nymph-parentheses-face)
-     (2 'cicada-nymph-parentheses-face)
-     (3 'cicada-nymph-parentheses-face))
+   (,(rx (seq
+          (group "(")))
+     (1 'cicada-nymph-parentheses-face))
+   (,(rx (seq
+          (group (zero-or-more "-") "->")))
+     (1 'cicada-nymph-parentheses-face))
+   (,(rx (seq
+          (group ")")))
+     (1 'cicada-nymph-parentheses-face))
+   ;; (,(rx (seq ;; word-start
+   ;;        (group "(")
+   ;;        (zero-or-more (not (in "(" "->" ")")))
+   ;;        (group "->")
+   ;;        (zero-or-more (not (in "(" "->" ")")))
+   ;;        (group ")")
+   ;;        ;; word-end
+   ;;        ))
+   ;;   (1 'cicada-nymph-parentheses-face)
+   ;;   (2 'cicada-nymph-parentheses-face)
+   ;;   (3 'cicada-nymph-parentheses-face))
    ;; (,(rx (seq ;; word-start
    ;;        (group (or "(" ")"))
    ;;        ;; word-end
