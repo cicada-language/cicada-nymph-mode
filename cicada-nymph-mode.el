@@ -615,27 +615,6 @@
      (1 'cicada-nymph-sentence-reader-face)
      (2 'cicada-nymph-function-to-define-face))
 
-   ;; define-function
-   (,(rx word-start
-         (group ";")
-         (one-or-more " ")
-         (group (or
-                 "define-function"
-                 "define-function,with-title"
-
-                 "define-type"
-                 "define"
-
-                 "define-module"
-
-                 "proof-theorem"
-                 "introduce-axiom"
-
-                 ))
-         word-end)
-     (1 'cicada-nymph-sentence-reader-face)
-     (2 'cicada-nymph-define-function-face))
-
    ;; define-alias
    (,(rx word-start
          (group ";")
@@ -678,6 +657,16 @@
          word-end)
      (1 'cicada-nymph-sentence-reader-face)
      (2 'cicada-nymph-define-variable-face))
+
+   ;; define-function
+   (,(rx word-start
+         (group ";")
+         (one-or-more " ")
+         (group "define"
+                (zero-or-more (not (in (0 . 32) 127))))
+         word-end)
+     (1 'cicada-nymph-sentence-reader-face)
+     (2 'cicada-nymph-define-function-face))
 
    ;; sentence-reader end
    (,(rx word-start
@@ -845,6 +834,16 @@
               (group (one-or-more (not (in (0 . 32) 127)))
                      ":")
               (group (one-or-more (not (in (0 . 32) 127))))
+              word-end))
+     (1 'cicada-nymph-title-face)
+     ;; (2 'cicada-nymph-title-face)
+     )
+
+   ;; theorm
+   (,(rx (seq word-start
+              (group (one-or-more (not (in (0 . 32) 127)))
+                     "?")
+              (group (zero-or-more (not (in (0 . 32) 127))))
               word-end))
      (1 'cicada-nymph-title-face)
      ;; (2 'cicada-nymph-title-face)
